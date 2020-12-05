@@ -29,9 +29,9 @@ defmodule Mix.Tasks.ReportRepair do
 
   # Performs 40000 comparisons (n^2)
   def process_report(integer_list, [brute_force: true], value) do
-    {:found, message } = find_value(integer_list, integer_list, value)
+    {:found, x, y } = find_value(integer_list, integer_list, value)
 
-    message
+    "#{x} * #{y} = #{x * y}"
   end
 
   def find_value([], _comparison_list, _value) do
@@ -43,7 +43,7 @@ defmodule Mix.Tasks.ReportRepair do
 
     case complementary_element do
       nil -> find_value(tail, comparison_list, value)
-      _ -> {:found, "#{head} + #{complementary_element}"}
+      _ -> {:found, head, complementary_element}
     end
   end
 
@@ -59,6 +59,7 @@ defmodule Mix.Tasks.ReportRepair do
   def process_buckets(buckets, value) do
     buckets_to_compare = [{0, 0}, {1, 9}, {2, 8}, {3, 7}, {4, 6}, {5, 5}]
 
+    {:found, x, y} =
     Enum.reduce(buckets_to_compare, [], fn compare_bucket_tuple, acc ->
       List.insert_at(
         acc,
@@ -73,6 +74,7 @@ defmodule Mix.Tasks.ReportRepair do
     |> Enum.find(fn result_tuple ->
       elem(result_tuple, 0) == :found
     end)
-    |> elem(1)
+
+    "#{x} * #{y} = #{x * y}"
   end
 end
