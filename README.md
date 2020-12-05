@@ -1,6 +1,12 @@
 # AdventOfCode2020
 
-**TODO: Add description**
+Completing some of the puzzles from [Advent of Code 2020](https://adventofcode.com/2020/). I will likely not have the time necessary to complete all of them, but am hoping to complete some of them when I can find the time necessary to do so. 
+
+All of these solutions will be in Elixir and can be run via a mix task.
+
+Each solution are located in the `lib/mix/tasks` directory and data files / puzzle inputs are located in the `data_files` directory. Files will be named after their associated puzzle from the Advent of Code website.
+
+Solution explanations and instructions on how to run each solution are located in the `solution_explanations` directory.
 
 ## Installation
 
@@ -18,4 +24,3 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/advent_of_code_2020](https://hexdocs.pm/advent_of_code_2020).
-
