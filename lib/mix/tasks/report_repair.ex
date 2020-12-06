@@ -3,8 +3,10 @@ defmodule Mix.Tasks.ReportRepair do
 
   @shortdoc "finds two integers in a list which add up to 2020"
 
+  @no_match_found "No matches for that criteria"
+
   def run(args) do
-    {parsed_args, _, _} = OptionParser.parse(args, strict: [brute_force: :boolean])
+    {parsed_args, _, _} = OptionParser.parse(args, strict: [brute_force: :boolean, part_two: :boolean])
 
     open_report()
     |> convert_to_integers()
@@ -27,11 +29,20 @@ defmodule Mix.Tasks.ReportRepair do
       |> process_buckets(value)
   end
 
-  # Performs 40000 comparisons (n^2)
+  # Performs at most 40000 comparisons (n^2)
   def process_report(integer_list, [brute_force: true], value) do
-    {:found, x, y } = find_value(integer_list, integer_list, value)
+    case find_value(integer_list, integer_list, value) do
+      {:found, x, y } -> "#{x} * #{y} = #{x * y}"
+      {:ok, :not_found}  -> @no_match_found
+    end
+  end
 
-    "#{x} * #{y} = #{x * y}"
+  # Performs at most 8000000 comparisons (n^3)
+  def process_report(integer_list, [part_two: true], value) do
+    case find_value(integer_list, integer_list, integer_list, value) do
+      {:found, x, y, z} -> "#{x} * #{y} * #{z} = #{x * y * z}"
+      {:ok, :not_found}  -> @no_match_found
+    end
   end
 
   def find_value([], _comparison_list, _value) do
@@ -44,6 +55,17 @@ defmodule Mix.Tasks.ReportRepair do
     case complementary_element do
       nil -> find_value(tail, comparison_list, value)
       _ -> {:found, head, complementary_element}
+    end
+  end
+
+  def find_value([], _list_two, _list_three, _value) do
+    {:ok, :not_found}
+  end
+
+  def find_value([head | tail], list_two, list_three, value) do
+    case find_value(list_two, list_three, value - head) do
+      {:ok, :not_found} -> find_value(tail, list_two, list_three, value)
+      {:found, x, y} -> {:found, head, x, y}
     end
   end
 
