@@ -1,6 +1,6 @@
 # AdventOfCode2020
 
-Solutions for some of the puzzles from [Advent of Code 2020](https://adventofcode.com/2020/). I will likely not have the time necessary to complete all of them, but am hoping to complete some of them when I can find the time. 
+Solutions for some of the puzzles from [Advent of Code 2020](https://adventofcode.com/2020/). 
 
 All of these solutions will be in Elixir and can be run via a mix task.
 
