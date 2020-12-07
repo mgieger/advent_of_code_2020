@@ -5,6 +5,15 @@ defmodule Utils.DataParser do
     |> Enum.map(&func.(&1))
   end
 
+  @doc """
+  Keeps every nth row of a list.
+
+  The index is used to determine which rows to keep. When its value is 0, the row is kept.
+  Otherwise the row is discarded.
+
+  The index defaults to 0, which ensures the first element and every nth element in the input list are kept.
+  Increasing the intial index value will push out which row is the first to be kept.
+  """
   def keep_every(list, nth, index \\ 0) do
     {keep_list, _, _} = Enum.reduce(list, {[], nth, index}, &extract_nth_row/2)
 
