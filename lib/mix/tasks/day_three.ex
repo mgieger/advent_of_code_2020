@@ -6,6 +6,8 @@ defmodule Mix.Tasks.DayThree do
   @part_one_toboggan_path [{1, 3}]
   @part_two_toboggan_path [{1, 1}, {1, 3}, {1, 5}, {1, 7}, {2, 1}]
 
+  alias Utils.DataParser
+
   def run(args) do
     {parsed_args, _, _} = OptionParser.parse(args, strict: [part_two: :boolean])
 
@@ -37,7 +39,7 @@ defmodule Mix.Tasks.DayThree do
     # shape data to remove excess rows
     data
     |> Enum.drop(1)
-    |> Enum.drop_every(row_shift)
+    |> DataParser.keep_every(2,1)
     |> Enum.reduce({0, column_shift, 0}, &determine_spot_and_increment_count/2)
   end
 
