@@ -9,14 +9,14 @@ I've generated two solutions to this problem which perform a different number of
 Both solutions read in the data file, convert the file data into a list of integers, and use a tail recursive function to search the data. 
 
 ### Brute Force
-```mix report_repair --brute-force```
+```mix day_one --brute-force```
 
 Max number of comparisons: 40000 (n^2)
 
 This solution performs searches through the data space by comparing each element against all other elements in the data until a match is found. This is much like a nested for loop solution which would be more commonly used in a non-functional programming language.
 
 ### Bucket Comparisons
-```mix report_repair```
+```mix day_one```
 
 Number of comparisons: ~4020 (with a uniform distribution of values)
 
@@ -45,7 +45,7 @@ Given the same report, find three entries whose sum equals 2020.
 This is an extension of the brute force solution when finding three values. While it is likely possible to do something more clever to find the solution, this was the solution I opted to complete (for the moment).
 
 ### Brute Force
-```mix report_repair --part-two```
+```mix day_one --part-two```
 
 Max number of comparisons: 8000000 (n^3)
 

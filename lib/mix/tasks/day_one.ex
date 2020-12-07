@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.ReportRepair do
+defmodule Mix.Tasks.DayOne do
   use Mix.Task
 
   @shortdoc "finds two integers in a list which add up to 2020"
@@ -15,7 +15,7 @@ defmodule Mix.Tasks.ReportRepair do
   end
 
   def open_report do
-    File.read!("data_files/report_repair.txt")
+    File.read!("data_files/day_one.txt")
   end
 
   def convert_to_integers(report_content) do
