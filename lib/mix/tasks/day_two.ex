@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.PasswordPhilosophy do
+defmodule Mix.Tasks.DayTwo do
   use Mix.Task
 
   @shortdoc "finds the number of valid passwords"
@@ -8,7 +8,7 @@ defmodule Mix.Tasks.PasswordPhilosophy do
   def run(args) do
     {parsed_args, _, _} = OptionParser.parse(args, strict: [part_two: :boolean])
 
-    File.read!("data_files/password_philosophy.txt")
+    File.read!("data_files/day_two.txt")
     |> parse_input()
     |> Stream.map(&password_valid?(&1, parsed_args))
     |> Enum.count(fn boolean -> boolean == true end)
