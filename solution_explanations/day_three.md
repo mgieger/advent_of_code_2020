@@ -28,3 +28,5 @@ Given a set of coordinates representing different starting points, traverse the 
 
 ### Solution
 ```mix day_three --part-two```
+
+This solution adds a second header function to ```toboggan_run``` for when then "down" value is greater than one. In this situation, the extra rows which we skip over in the "down" movement are removed from the data. This allows for the same implementation of ```determine_spot_and_increment_count/2``` to be used to calculate the number of trees. 
