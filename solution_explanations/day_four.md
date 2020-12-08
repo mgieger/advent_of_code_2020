@@ -48,3 +48,4 @@ Add additional validation:
 - pid (Passport ID) - a nine-digit number, including leading zeroes.
 - cid (Country ID) - ignored, missing or not.
 
+An additional function header for ```validate_passport/2``` is added to perform additional passport validations. 

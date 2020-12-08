@@ -55,9 +55,7 @@ defmodule Mix.Tasks.DayFour do
     },
     {acc, [part_two: true]}
   ) do
-    byr = String.to_integer(byr)
-    iyr = String.to_integer(iyr)
-    eyr = String.to_integer(eyr)
+    [byr, iyr, eyr] = Enum.map([byr, iyr, eyr], &String.to_integer/1)
     valid_hgt = height_valid?(hgt, Regex.match?(~r/^(\d+)(cm|in)$/, hgt))
     valid_hcl = Regex.match?(~r/^#[a-f0-9]{6}$/, hcl)
     valid_ecl = Enum.any?(@eye_colors, fn color -> color == ecl end)
