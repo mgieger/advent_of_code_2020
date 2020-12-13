@@ -3,11 +3,13 @@ defmodule Mix.Tasks.DayFive do
 
   @shortdoc "Finds the user's plane seat"
 
-  def run(_args) do
+  def run(args) do
+    {parsed_args, _, _} = OptionParser.parse(args, strict: [part_two: :boolean])
+
     File.read!("data_files/day_five.txt")
     |> separate_boarding_passes()
     |> determine_seat_ids()
-    |> Enum.max()
+    |> find_your_seat_id(parsed_args)
     |> IO.inspect()
   end
 
@@ -30,7 +32,7 @@ defmodule Mix.Tasks.DayFive do
     |> Enum.map(&determine_seat_id/1)
   end
 
-  defp determine_seat_id({row_key, col_key} = boarding_pass) do
+  defp determine_seat_id({row_key, col_key}) do
     row = binary_search(String.to_charlist(row_key), 0..127)
     col = binary_search(String.to_charlist(col_key), 0..7)
     calculate_to_seat_id(row, col)
@@ -54,5 +56,9 @@ defmodule Mix.Tasks.DayFive do
 
   defp calculate_to_seat_id(row, col) do
     (row * 8) + col
+  end
+
+  defp find_your_seat_id(list, []) do
+    Enum.max(list)
   end
 end
