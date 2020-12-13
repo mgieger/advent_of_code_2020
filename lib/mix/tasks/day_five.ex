@@ -61,4 +61,16 @@ defmodule Mix.Tasks.DayFive do
   defp find_your_seat_id(list, []) do
     Enum.max(list)
   end
+
+  defp find_your_seat_id(list, [part_two: true]) do
+    list =
+      list
+      |> Enum.sort()
+      |> Enum.with_index()
+
+    Enum.drop_while(list, fn {val, index} -> val + 1 == elem(Enum.at(list, index + 1), 0) end)
+    |> List.first()
+    |> elem(0)
+    |> Kernel.+(1)
+  end
 end
