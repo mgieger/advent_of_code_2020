@@ -33,35 +33,19 @@ defmodule Mix.Tasks.DayEight do
     |> execute_command(Enum.at(commands, index + 1), index + 1, acc)
   end
 
-  def execute_command(commands, %{command: "jmp", value: "-"<>num, visited: false}, index, acc) do
+  def execute_command(commands, %{command: "jmp", value: num, visited: false}, index, acc) do
     offset = String.to_integer(num)
 
     List.update_at(commands, index, fn cmnd ->
       %{cmnd | visited: true}
     end)
-    |> execute_command(Enum.at(commands, index - offset), index - offset, acc)
+    |> execute_command(Enum.at(commands, index + offset), index  + offset, acc)
   end
 
-  def execute_command(commands, %{command: "jmp", value: "+"<>num, visited: false}, index, acc) do
-    offset = String.to_integer(num)
-
-    List.update_at(commands, index, fn cmnd ->
-      %{cmnd | visited: true}
-    end)
-    |> execute_command(Enum.at(commands, index + offset), index + offset, acc)
-  end
-
-  def execute_command(commands, %{command: "acc", value: "+"<>num, visited: false}, index, acc) do
+  def execute_command(commands, %{command: "acc", value: num, visited: false}, index, acc) do
     List.update_at(commands, index, fn cmnd ->
       %{cmnd | visited: true}
     end)
     |> execute_command(Enum.at(commands, index + 1), index + 1, acc + String.to_integer(num))
-  end
-
-  def execute_command(commands, %{command: "acc", value: "-"<>num, visited: false}, index, acc) do
-        List.update_at(commands, index, fn cmnd ->
-      %{cmnd | visited: true}
-    end)
-    |> execute_command(Enum.at(commands, index + 1), index + 1, acc - String.to_integer(num))
   end
 end
