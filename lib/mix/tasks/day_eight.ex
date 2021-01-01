@@ -18,8 +18,9 @@ defmodule Mix.Tasks.DayEight do
   end
 
   def into_command_map(command) do
-    [cmnd, value] = String.split(command, " ", trim: true)
-    %{command: cmnd, value: value, visited: false}
+    line = Regex.named_captures(~r/(?<command>\w+)\s(?<value>.+)/, command)
+
+    %{command: line["command"], value: line["value"], visited: false}
   end
 
   def execute_command(_commands, %{visited: true}, _index, acc) do
