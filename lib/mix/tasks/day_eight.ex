@@ -7,9 +7,9 @@ defmodule Mix.Tasks.DayEight do
       |> File.read!()
       |> process_file()
 
-    {:cont, acc} = execute_command(commands, List.first(commands), 0, 0, Enum.count(commands))
+    {:cont, [acc]} = execute_command(commands, List.first(commands), 0, 0, [], Enum.count(commands))
 
-    IO.inspect(acc)
+    IO.inspect("Part One: #{acc}")
   end
 
   def run(["--part-two"]) do
@@ -24,8 +24,16 @@ defmodule Mix.Tasks.DayEight do
       Enum.map(jmp_list, &swap_command(commands, :jmp, &1)) ++
       Enum.map(nop_list, &swap_command(commands, :nop, &1))
 
-    Enum.reduce_while(modified_commands, 0, &execute_command(&1, List.first(&1), 0, &2, Enum.count(commands)))
-    |> IO.inspect()
+    acc =
+      Enum.reduce_while(modified_commands, [], &execute_command(&1, List.first(&1), 0, 0, &2, Enum.count(commands)))
+      |> List.first()
+
+    IO.inspect("Part Two: #{acc}")
+  end
+
+  def run(_args) do
+    run(["--part-one"])
+    run(["--part-two"])
   end
 
   def process_file(data) do
@@ -40,35 +48,35 @@ defmodule Mix.Tasks.DayEight do
     %{command: line["command"], value: line["value"], visited: false}
   end
 
-  def execute_command(_commands, _command, index, acc, num_commands) when index >= num_commands do
-    {:halt, acc}
+  def execute_command(_commands, _command, index, cmnd_value, acc, num_commands) when index >= num_commands do
+    {:halt, [cmnd_value | acc]}
   end
 
-  def execute_command(_commands, %{visited: true}, _index, _acc, _num_commands) do
-    {:cont, 0}
+  def execute_command(_commands, %{visited: true}, _index, cmnd_value, acc, _num_commands) do
+    {:cont, [cmnd_value | acc]}
   end
 
-  def execute_command(commands, %{command: "nop", value: _num, visited: false}, index, acc, num_commands) do
+  def execute_command(commands, %{command: "nop", value: _num, visited: false}, index, cmnd_value, acc, num_commands) do
     List.update_at(commands, index, fn cmnd ->
       %{cmnd | visited: true}
     end)
-    |> execute_command(Enum.at(commands, index + 1), index + 1, acc, num_commands)
+    |> execute_command(Enum.at(commands, index + 1), index + 1, cmnd_value, acc, num_commands)
   end
 
-  def execute_command(commands, %{command: "jmp", value: num, visited: false}, index, acc, num_commands) do
+  def execute_command(commands, %{command: "jmp", value: num, visited: false}, index, cmnd_value, acc, num_commands) do
     offset = String.to_integer(num)
 
     List.update_at(commands, index, fn cmnd ->
       %{cmnd | visited: true}
     end)
-    |> execute_command(Enum.at(commands, index + offset), index  + offset, acc, num_commands)
+    |> execute_command(Enum.at(commands, index + offset), index  + offset, cmnd_value, acc, num_commands)
   end
 
-  def execute_command(commands, %{command: "acc", value: num, visited: false}, index, acc, num_commands) do
+  def execute_command(commands, %{command: "acc", value: num, visited: false}, index, cmnd_value, acc, num_commands) do
     List.update_at(commands, index, fn cmnd ->
       %{cmnd | visited: true}
     end)
-    |> execute_command(Enum.at(commands, index + 1), index + 1, acc + String.to_integer(num), num_commands)
+    |> execute_command(Enum.at(commands, index + 1), index + 1, cmnd_value + String.to_integer(num), acc, num_commands)
   end
 
   def find_indices(commands) do
