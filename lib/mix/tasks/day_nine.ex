@@ -21,17 +21,17 @@ defmodule Mix.Tasks.DayNine do
     run(["--part-one"])
   end
 
+  def parse(data) do
+    data
+    |> String.trim()
+    |> String.to_integer()
+  end
+
   def sum_of_two?({sequence, next}, _acc) do
     case find_value(sequence, sequence, next) do
       {:not_found} -> {:halt, next}
       {:found} -> {:cont, 0}
     end
-  end
-
-  def parse(data) do
-    data
-    |> String.trim()
-    |> String.to_integer()
   end
 
   def find_value([], _comparison_list, _value) do
